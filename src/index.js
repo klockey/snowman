@@ -1,14 +1,24 @@
-import './styles/screen.sass'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+import App from './components/App'
 
-const main = () => {
-  document.querySelector('h1').textContent += '?'
+import './styles/screen.scss'
+
+const root = document.getElementById('root')
+
+const render = (app) => {
+  ReactDOM.render(
+    <AppContainer>{app}</AppContainer>,
+    root
+  )
 }
 
-document.addEventListener('DOMContentLoaded', main)
+render(<App />)
 
-// HERE BE DRAGONS... and webpack. Don't touch.
-if (process.env.NODE_ENV !== 'production') require('./index.html')
 if (module.hot) {
-  module.hot.dispose(() => window.location.reload())
-  module.hot.accept(err => console.error(err))
+  module.hot.accept('./components/App', () => {
+    const NextApp = require('./components/App').default
+    render(<NextApp />)
+  })
 }
