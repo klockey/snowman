@@ -16,34 +16,43 @@ class App extends Component {
     super()
     // TODO
     this.state = {
+      lettersOfWord: [],
+      currentWord: _.sample(WORDS),
+      snowman: 0
     }
   }
 
   choose (letter) {
     // TODO
     console.log('You clicked', letter)
+    this.state.lettersOfWord = this.state.lettersOfWord + letter
   }
 
   get points () {
     // TODO
-    return 0
+    return this.state.currentWord.split('').filter((letter) => {
+      return this.state.lettersOfWord.includes(letter)
+    }).length
   }
 
   render () {
+    const letters = ALPHABET.map((letter, i) => {
+      return <LetterButton
+        value={letter}
+        onChoose={() => this.choose(letter)}
+        disabled={this.state.lettersOfWord.includes(letter)}
+        key={letter}
+    />
+    })
     return <div className='app'>
       <main>
         <Snowman step={this.points} size={400} />
-        {/* TODO */}
-        <Word value='SNOWMAN' guesses={['E', 'M', 'O']} />
+        <Word value={this.state.currentWord} guesses={this.state.lettersOfWord} />
         <div className='keyboard'>
-          {/* TODO */}
-          <LetterButton
-            value='A'
-            onChoose={() => this.choose('A')}
-            disabled={false} />
+          {letters}
         </div>
       </main>
-      <footer>It's like hangman, but, um... backwards or something.</footer>
+      <footer>Its like hangman, but, um... backwards or something.</footer>
     </div>
   }
 }
