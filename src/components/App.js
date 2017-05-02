@@ -17,8 +17,7 @@ class App extends Component {
     // TODO
     this.state = {
       lettersOfWord: [],
-      currentWord: _.sample(WORDS),
-      snowman: 0
+      currentWord: _.sample(WORDS)
     }
   }
 
